@@ -36,6 +36,6 @@ func PostgresDB() (*PostgresStore, error) {
 	}, nil
 }
 
-func (store *PostgresStore) Init() error {
-	return store.CreateTables()
+func Init() error {
+	return CreateTables()
 }
