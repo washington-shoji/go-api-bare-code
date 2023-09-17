@@ -1,6 +1,6 @@
 package databases
 
-func (store *PostgresStore) CreateTables() error {
+func CreateTables() error {
 	query := `
 	CREATE TABLE IF NOT EXISTS account (
 		id SERIAL PRIMARY KEY NOT NULL,
@@ -33,6 +33,6 @@ func (store *PostgresStore) CreateTables() error {
 	);
 	`
 
-	_, err := store.db.Exec(query)
+	_, err := DB.db.Exec(query)
 	return err
 }
