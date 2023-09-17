@@ -9,12 +9,12 @@ import (
 
 func main() {
 
-	store, err := databases.PostgresDB()
+	_, err := databases.PostgresDB()
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	if err := store.Init(); err != nil {
+	if err := databases.Init(); err != nil {
 		log.Fatal(err)
 	}
 
