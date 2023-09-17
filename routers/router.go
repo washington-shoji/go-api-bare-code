@@ -10,6 +10,8 @@ func SetupRoutes() *mux.Router {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/health-check", helpers.MakeHTTPHandleFunc(handlers.HandleHealthCheck))
+	router.HandleFunc("/account", helpers.MakeHTTPHandleFunc(handlers.HandleAccount))
+	router.HandleFunc("/account/{id}", helpers.MakeHTTPHandleFunc(handlers.HandleAccountByID))
 
 	return router
 }
