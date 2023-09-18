@@ -61,6 +61,18 @@ func GetAccountByID(id int) (*Account, error) {
 	return nil, fmt.Errorf("account %d not found", id)
 }
 
+func GetAccountByUserName(userName string) (*Account, error) {
+	rows, err := DB.db.Query(`SELECT * FROM account WHERE user_name = $1`, userName)
+	if err != nil {
+		return nil, err
+	}
+	for rows.Next() {
+		return scanIntoAccount(rows)
+	}
+
+	return nil, fmt.Errorf("account with number [%s] not found", userName)
+}
+
 func UpdateAccountByID(id int, acc *Account) error {
 	query := `UPDATE account 
 	SET 
