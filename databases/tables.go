@@ -31,8 +31,17 @@ func CreateTables() error {
 		updated_at TIMESTAMP,
 		deleted_at TIMESTAMP
 	);
+
+	
+	CREATE TABLE IF NOT EXISTS author (
+		id uuid PRIMARY KEY NOT NULL,
+		full_name VARCHAR(50) UNIQUE NOT NULL,
+		created_at TIMESTAMP NOT NULL,
+		updated_at TIMESTAMP,
+		deleted_at TIMESTAMP
+	);
 	`
 
-	_, err := DB.db.Exec(query)
+	_, err := DB.Database.Exec(query)
 	return err
 }
