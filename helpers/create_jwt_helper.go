@@ -10,8 +10,8 @@ import (
 func CreateJWT(cred string) (string, error) {
 	// Create the Claims
 	claims := &jwt.MapClaims{
-		"expiredAt": time.Now().Add(time.Minute * 1).Unix(),
-		"userName":  cred,
+		"exp":      time.Now().Add(time.Minute * 15).Unix(),
+		"userName": cred,
 	}
 
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
