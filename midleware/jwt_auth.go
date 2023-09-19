@@ -12,7 +12,6 @@ import (
 
 func JWTAuth(handlerFunc http.HandlerFunc) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		fmt.Println("calling JWT auth middleware")
 
 		tokenString := r.Header.Get("Authorization")
 		token, err := validateJWT(tokenString)
@@ -57,14 +56,9 @@ func validateJWT(tokenStr string) (*jwt.Token, error) {
 
 	return jwt.Parse(tokenStr, func(token *jwt.Token) (interface{}, error) {
 		// Don't forget to validate the alg is what you expect:
-		res, ok := token.Method.(*jwt.SigningMethodHMAC)
-
-		if !ok {
+		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
 		}
-
-		fmt.Println("res", res)
-		fmt.Println("ok", ok)
 
 		// hmacSampleSecret is a []byte containing your secret, e.g. []byte("my_secret_key")
 		return []byte(secret), nil
