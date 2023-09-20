@@ -10,7 +10,7 @@ import (
 )
 
 type PostgresStore struct {
-	db *sql.DB
+	Database *sql.DB
 }
 
 var DB PostgresStore
@@ -28,11 +28,11 @@ func PostgresDB() (*PostgresStore, error) {
 	}
 
 	DB = PostgresStore{
-		db: db,
+		Database: db,
 	}
 
 	return &PostgresStore{
-		db: db,
+		Database: db,
 	}, nil
 }
 
