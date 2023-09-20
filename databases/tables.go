@@ -32,10 +32,18 @@ func CreateTables() error {
 		deleted_at TIMESTAMP
 	);
 
-	
 	CREATE TABLE IF NOT EXISTS author (
 		id uuid PRIMARY KEY NOT NULL,
 		full_name VARCHAR(50) UNIQUE NOT NULL,
+		created_at TIMESTAMP NOT NULL,
+		updated_at TIMESTAMP,
+		deleted_at TIMESTAMP
+	);
+
+	CREATE TABLE IF NOT EXISTS book (
+		id uuid PRIMARY KEY NOT NULL,
+		title VARCHAR(50) UNIQUE NOT NULL,
+		description VARCHAR(500),
 		created_at TIMESTAMP NOT NULL,
 		updated_at TIMESTAMP,
 		deleted_at TIMESTAMP
