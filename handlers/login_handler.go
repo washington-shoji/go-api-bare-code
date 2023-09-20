@@ -5,7 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/washington-shoji/gobare/databases"
+	"github.com/washington-shoji/gobare/collections/account"
+	"github.com/washington-shoji/gobare/collections/auth"
 	"github.com/washington-shoji/gobare/helpers"
 )
 
@@ -14,13 +15,13 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) error {
 		return fmt.Errorf("method not allowed %s", r.Method)
 	}
 
-	var req databases.LoginRequest
+	var req auth.LoginRequest
 	err := json.NewDecoder(r.Body).Decode(&req)
 	if err != nil {
 		return err
 	}
 
-	acc, err := databases.GetAccountByUserName(req.UserName)
+	acc, err := account.GetAccountByUserName(req.UserName)
 	if err != nil {
 		return err
 	}
@@ -34,7 +35,7 @@ func HandleLogin(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	resp := databases.LoginResponse{
+	resp := auth.LoginResponse{
 		Token:    token,
 		UserName: acc.UserName,
 	}
