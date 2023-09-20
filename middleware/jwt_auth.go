@@ -1,10 +1,11 @@
-package midleware
+package middleware
 
 import (
 	"fmt"
 	"net/http"
 
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/washington-shoji/gobare/collections/account"
 	"github.com/washington-shoji/gobare/configs"
 	"github.com/washington-shoji/gobare/databases"
 	"github.com/washington-shoji/gobare/helpers"
@@ -30,7 +31,7 @@ func JWTAuth(handlerFunc http.HandlerFunc) http.HandlerFunc {
 			permissionDenied(w)
 			return
 		}
-		account, err := databases.GetAccountByID(userID)
+		account, err := account.GetAccountByID(userID)
 		if err != nil {
 			permissionDenied(w)
 			return
