@@ -7,7 +7,7 @@ import (
 
 	_ "github.com/lib/pq"
 
-	"github.com/washington-shoji/gobare/databases"
+	"github.com/washington-shoji/gobare/collections/account"
 	"github.com/washington-shoji/gobare/helpers"
 )
 
@@ -24,11 +24,11 @@ func HandleAccount(w http.ResponseWriter, r *http.Request) error {
 }
 
 func HandleCreateAccount(w http.ResponseWriter, r *http.Request) error {
-	createAccReq := databases.CreateAccountRequest{}
+	createAccReq := account.CreateAccountRequest{}
 	if err := json.NewDecoder(r.Body).Decode(&createAccReq); err != nil {
 		return err
 	}
-	account, err := databases.NewAccount(
+	acc, err := account.NewAccount(
 		createAccReq.UserName,
 		createAccReq.Email,
 		createAccReq.FirstName,
@@ -39,15 +39,15 @@ func HandleCreateAccount(w http.ResponseWriter, r *http.Request) error {
 		return err
 	}
 
-	if err := databases.CreateAccount(account); err != nil {
+	if err := account.CreateAccount(acc); err != nil {
 		return err
 	}
 
-	return helpers.WriteJson(w, http.StatusOK, account)
+	return helpers.WriteJson(w, http.StatusOK, acc)
 }
 
 func HandleGetAccount(w http.ResponseWriter, r *http.Request) error {
-	accounts, err := databases.GetAccounts()
+	accounts, err := account.GetAccounts()
 	if err != nil {
 		return err
 	}
@@ -62,7 +62,7 @@ func HandleAccountByID(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	if r.Method == "GET" {
-		account, err := databases.GetAccountByID(id)
+		account, err := account.GetAccountByID(id)
 		if err != nil {
 			return err
 		}
@@ -70,16 +70,16 @@ func HandleAccountByID(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	if r.Method == "DELETE" {
-		account, err := databases.DeleteAccount()
+		acc, err := account.DeleteAccount()
 		if err != nil {
 			return err
 		}
 
-		if err := databases.DeleteAccountByID(id, account); err != nil {
+		if err := account.DeleteAccountByID(id, acc); err != nil {
 			return err
 		}
 
-		res := databases.DeleteAccountResponse{
+		res := account.DeleteAccountResponse{
 			Message: "Deleted successfully",
 		}
 
@@ -87,11 +87,11 @@ func HandleAccountByID(w http.ResponseWriter, r *http.Request) error {
 	}
 
 	if r.Method == "PUT" {
-		updateAccReq := databases.UpdateAccountRequest{}
+		updateAccReq := account.UpdateAccountRequest{}
 		if err := json.NewDecoder(r.Body).Decode(&updateAccReq); err != nil {
 			return err
 		}
-		account, err := databases.UpdateAccount(
+		acc, err := account.UpdateAccount(
 			updateAccReq.UserName,
 			updateAccReq.Email,
 			updateAccReq.FirstName,
@@ -102,11 +102,11 @@ func HandleAccountByID(w http.ResponseWriter, r *http.Request) error {
 			return err
 		}
 
-		if err := databases.UpdateAccountByID(id, account); err != nil {
+		if err := account.UpdateAccountByID(id, acc); err != nil {
 			return err
 		}
 
-		return helpers.WriteJson(w, http.StatusOK, account)
+		return helpers.WriteJson(w, http.StatusOK, acc)
 
 	}
 
